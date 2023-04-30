@@ -1,0 +1,4 @@
+name: TeleportCommands
+version: '${project.version}'
+main: me.plugin.teleportcommands.TeleportCommands
+api-version: 1.19
