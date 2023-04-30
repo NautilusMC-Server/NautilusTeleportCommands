@@ -17,7 +17,6 @@ public final class TeleportCommands extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        String url = "jdbc:mysql://u34689_uw6sGHYfrX:6kRkOHl2fpBQWCKRNrvEe3RB@byrd.bloom.host:3306/s34689_NautilusMain";
         plugin = this;
         new OnCustomTeleport(plugin);
         new HomeTP(plugin);
