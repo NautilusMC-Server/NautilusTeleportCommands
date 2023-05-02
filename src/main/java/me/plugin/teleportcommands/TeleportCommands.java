@@ -21,7 +21,6 @@ public final class TeleportCommands extends JavaPlugin {
         new OnCustomTeleport(plugin);
         new HomeTP(plugin);
         try {
-            System.out.println("register");
             CommandManager.createCoreCommand(this, "home", "Creates homes to teleport to", "/home", null, HomeSet.class, HomeDelete.class, HomeTP.class);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
@@ -36,9 +35,5 @@ public final class TeleportCommands extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-    }
-
-    public static Plugin getPlugin() {
-        return plugin;
     }
 }

@@ -32,17 +32,21 @@ public class OnCustomTeleport implements Listener {
         BukkitRunnable countdown = new BukkitRunnable() {
             @Override
             public void run() {
-                if (canceled.contains(e.getPlayer())) {
-                    e.setCancelled(true);
-                    this.cancel();
-                    canceled.remove(e.getPlayer());
-                }
+                TeleportCommands.plugin.getLogger().log(Level.INFO, "In Task");
                 counter.decrement();
                 p.sendMessage("" + counter.getCount());
+                if (canceled.contains(p)) {
+                    p.sendMessage("Teleportation Canceled!");
+                    e.setCancelled(true);
+                    canceled.remove(p);
+                    this.cancel();
+                }
+                if (counter.getCount() < 1) {
+                    this.cancel();
+                }
             }
         };
-        countdown.runTaskLater(TeleportCommands.plugin, 5 * 20);
-
+        countdown.runTask(TeleportCommands.plugin);
         running.remove(p);
     }
     @EventHandler
