@@ -15,4 +15,28 @@ public abstract class Teleporter {
         this.player = player;
         this.name = name;
     }
+
+    public void setLocation(Location location) {
+        this.location = location;
+    }
+
+    public void setPlayer(Player player) {
+        this.player = player;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Location getLocation() {
+        return location;
+    }
+
+    public Player getPlayer() {
+        return player;
+    }
+
+    public String getName() {
+        return name;
+    }
 }
