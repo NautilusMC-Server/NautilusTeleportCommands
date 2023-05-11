@@ -66,7 +66,7 @@ public class HomeTP extends SubCommand {
             if (!tpEvent.isCancelled()) {
                 p.teleport(home.getLocation());
             }
-        }, 5 * 5 * 15);
+        }, 5 * 20);
     }
 
     @Override
