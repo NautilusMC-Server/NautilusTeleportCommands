@@ -74,10 +74,5 @@
             <version>1.19.4-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>com.github.KodySimpson</groupId>
-            <artifactId>SimpAPI</artifactId>
-            <version>4.4.0</version>
-        </dependency>
     </dependencies>
 </project>

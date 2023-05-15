@@ -2,3 +2,12 @@ name: TeleportCommands
 version: '${project.version}'
 main: me.plugin.teleportcommands.TeleportCommands
 api-version: 1.19
+commands:
+  sethome:
+    description: Sets homes
+  delhome:
+    description: Deletes homes
+  homes:
+    description: Lists homes
+  home:
+    description: Brings player to a home
