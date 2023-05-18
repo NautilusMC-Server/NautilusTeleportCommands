@@ -1,6 +1,5 @@
 package me.plugin.teleportcommands.events;
 
-import me.plugin.teleportcommands.utils.Teleporter;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Cancellable;
@@ -12,13 +11,11 @@ public class CustomTeleportEvent extends Event implements Cancellable {
     private static final HandlerList handlers = new HandlerList();
     private Player player;
     private Location location;
-    private Teleporter teleporter;
     boolean cancelled = false;
 
-    public CustomTeleportEvent(Player p, Location l, Teleporter t) {
+    public CustomTeleportEvent(Player p, Location l) {
         player = p;
         location = l;
-        teleporter = t;
     }
 
     public CustomTeleportEvent(boolean isAsync) {
@@ -39,14 +36,6 @@ public class CustomTeleportEvent extends Event implements Cancellable {
 
     public void setLocation(Location location) {
         this.location = location;
-    }
-
-    public Teleporter getTeleporter() {
-        return teleporter;
-    }
-
-    public void setTeleporter(Teleporter teleporter) {
-        this.teleporter = teleporter;
     }
 
     @Override

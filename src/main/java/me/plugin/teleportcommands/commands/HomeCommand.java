@@ -3,6 +3,7 @@ package me.plugin.teleportcommands.commands;
 import me.plugin.teleportcommands.TeleportCommands;
 import me.plugin.teleportcommands.events.CustomTeleportEvent;
 import org.bukkit.Bukkit;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -24,18 +25,19 @@ public class HomeCommand extends CommandStem {
             return true;
         }
         String name = args[0];
-        if (HomeStorage.findHome(p, str) == null) {
-            p.sendMessage("Home " + str + " doesn't exist!");
-            return;
+        if (!plugin.d().hasHome(p,name)) {
+            p.sendMessage("Home " + name + " doesn't exist!");
+            return true;
         }
-        Home home = HomeStorage.findHome(p, str);
-        CustomTeleportEvent tpEvent = new CustomTeleportEvent(p, home.getLocation(), home);
+        Location to = plugin.d().getHomeLocation(p, name);
+        CustomTeleportEvent tpEvent = new CustomTeleportEvent(p, to);
         Bukkit.getPluginManager().callEvent(tpEvent);
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             if (!tpEvent.isCancelled()) {
-                p.teleport(home.getLocation());
+                p.teleport(to);
             }
         }, 5 * 20);
+        return true;
     }
 
 }

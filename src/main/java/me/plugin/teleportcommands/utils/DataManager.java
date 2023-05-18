@@ -2,6 +2,7 @@ package me.plugin.teleportcommands.utils;
 
 import me.plugin.teleportcommands.TeleportCommands;
 import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -80,6 +81,16 @@ public class DataManager {
             config.createSection(p.getUniqueId() + ".homes");
             saveConfig();
         }
+    }
+
+    public boolean hasHome(Player p, String name) {
+        ConfigurationSection cfg = getConfig().getConfigurationSection(p.getUniqueId() + ".homes");
+        return cfg.getKeys(false).contains(name);
+    }
+
+    public Location getHomeLocation(Player p, String name) {
+        ConfigurationSection cfg = getConfig().getConfigurationSection(p.getUniqueId() + ".homes");
+        return cfg.getLocation(name);
     }
 
     public void addHome(Player p, String name) {

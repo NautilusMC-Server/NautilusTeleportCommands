@@ -4,6 +4,7 @@ import me.plugin.teleportcommands.commands.*;
 import me.plugin.teleportcommands.listeners.EventManager;
 import me.plugin.teleportcommands.listeners.OnCustomTeleport;
 import me.plugin.teleportcommands.utils.DataManager;
+import me.plugin.teleportcommands.utils.TPA;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
@@ -17,6 +18,7 @@ public final class TeleportCommands extends JavaPlugin {
 
     protected String pluginName;
     private DataManager dataManager;
+    private TPA tpa;
     private ArrayList<CommandStem> commands;
 
     public TeleportCommands() {
@@ -53,5 +55,9 @@ public final class TeleportCommands extends JavaPlugin {
 
     public DataManager d() {
         return dataManager;
+    }
+
+    public TPA tpa() {
+        return tpa;
     }
 }
