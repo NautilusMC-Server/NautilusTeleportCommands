@@ -11,8 +11,6 @@ public class TpaCommand extends CommandStem {
         super(plugin, "tpa", "Send tpa request", "");
     }
 
-    protected TeleportCommands plugin;
-
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {

@@ -8,6 +8,8 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
+import java.util.HashMap;
+
 public class HomeCommand extends CommandStem {
     public HomeCommand(TeleportCommands plugin) {
         super(plugin, "home", "Teleports to specified home", "");
@@ -22,7 +24,13 @@ public class HomeCommand extends CommandStem {
         Player p = (Player) sender;
         if (args.length < 1) {
             p.sendMessage(ChatColor.GRAY + "Please provide name of home: /home [home]");
-            //todo print homes list
+            HashMap<String, Location> homes = plugin.d().homesList(p);
+            p.sendMessage(ChatColor.DARK_AQUA + "-- Homes: --"); //todo maybe do all the output code in one place (grimacing at this rn)
+            for(String name : homes.keySet()) {
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        "&f" + name + "&b: &7(" + Math.round(homes.get(name).getX()) + ", " +
+                                Math.round(homes.get(name).getZ()) + "), " + homes.get(name).getWorld().getName()));
+            }
             return true;
         }
         String name = args[0];

@@ -10,8 +10,6 @@ public class SetwarpCommand extends CommandStem {
         super(plugin, "setwarp", "Set warps", "");
     }
 
-    protected TeleportCommands plugin;
-
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
@@ -27,7 +25,7 @@ public class SetwarpCommand extends CommandStem {
             p.sendMessage(ChatColor.GRAY + "Please provide name for new warp: /setwarp [name]");
             return true;
         }
-        plugin.d().addHome(p, args[0]);
+        plugin.d().addWarp(p, args[0]);
         return true;
     }
 }

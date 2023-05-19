@@ -2,9 +2,7 @@ package me.plugin.teleportcommands.listeners;
 
 import me.plugin.teleportcommands.TeleportCommands;
 import me.plugin.teleportcommands.events.CustomTeleportEvent;
-import me.plugin.teleportcommands.utils.Counter;
 import me.plugin.teleportcommands.utils.PlayerBlock;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -14,14 +12,12 @@ import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 import java.util.ArrayList;
-import java.util.logging.Level;
 
 public class OnCustomTeleport implements Listener {
     private static final ArrayList<PlayerBlock> running = new ArrayList<>();
     private static final ArrayList<Player> canceled = new ArrayList<>();
-    private static Plugin plugin;
+    private final Plugin plugin;
 
-    public OnCustomTeleport() {}
     public OnCustomTeleport(Plugin plugin) {
         this.plugin = plugin;
     }
@@ -30,40 +26,32 @@ public class OnCustomTeleport implements Listener {
         Player p = e.getPlayer();
         PlayerBlock pb = new PlayerBlock(p);
         if (running.contains(pb)) {
-            p.sendMessage(ChatColor.DARK_AQUA + "Sending you elsewhere in 5 seconds...");
             e.setCancelled(true);
             return;
         }
         canceled.remove(p);
+        p.sendMessage(ChatColor.DARK_AQUA + "Sending you elsewhere in 5 seconds...");
         running.add(pb);
-        Counter counter = new Counter(5);
-        BukkitRunnable countdown = new BukkitRunnable() {
+        BukkitRunnable checkAfter = new BukkitRunnable() {
             @Override
             public void run() {
-                p.sendMessage("" + counter.getCount());
-                counter.decrement();
-                p.sendMessage("" + running.contains(p));
                 if (canceled.contains(p)) {
-                    p.sendMessage(ChatColor.RED + "Teleportation Canceled!");
                     e.setCancelled(true);
                     canceled.remove(p);
-                    running.remove(pb);
-                    this.cancel();
                 }
-                if (counter.getCount() < 1) {
-                    running.remove(pb);
-                    this.cancel();
-                }
+                running.remove(pb);
+                this.cancel();
             }
         };
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {p.damage(2);}, 40);
-        countdown.runTaskTimer(TeleportCommands.plugin, 0, 20);;
+        checkAfter.runTaskLater(plugin,5 * 20);
     }
     @EventHandler
     public void onDamage(EntityDamageEvent e) {
         if (e.getEntity() instanceof Player && !running.isEmpty()) {
+            if(canceled.contains((Player)e.getEntity())) return;
             for (PlayerBlock pb : running) {
                 if (pb.equals((Player) (e.getEntity()))) {
+                    e.getEntity().sendMessage(ChatColor.RED + "You took damage! Teleportation canceled.");
                     canceled.add((Player)e.getEntity());
                     return;
                 }
@@ -72,19 +60,18 @@ public class OnCustomTeleport implements Listener {
     }
    @EventHandler
     public void onPlayerMove(PlayerMoveEvent e) {
-        if (running.isEmpty()) {
+        if (running.isEmpty() || canceled.contains(e.getPlayer())) {
             return;
         }
         PlayerBlock pb = null;
-        for (int i = 0; i < running.size(); i++) {
-
-            if (running.get(i).equals(e.getPlayer())) {
-                pb = running.get(i);
-                break;
-            }
+        for (PlayerBlock playerBlock : running) {
+           if (playerBlock.equals(e.getPlayer())) {
+               pb = playerBlock;
+               break;
+           }
         }
-        pb.getPlayer().sendMessage("here");
         if (pb != null && !pb.getBlock().equals(e.getPlayer().getLocation().getBlock())) {
+            e.getPlayer().sendMessage(ChatColor.RED + "You moved! Teleportation canceled.");
             canceled.add(e.getPlayer());
         }
     }

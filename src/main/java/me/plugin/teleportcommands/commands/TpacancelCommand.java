@@ -10,7 +10,6 @@ public class TpacancelCommand extends CommandStem {
     public TpacancelCommand(TeleportCommands plugin) {
         super(plugin, "tpacancel", "Cancel sent tpa request", "");
     }
-
     protected TeleportCommands plugin;
 
     @Override

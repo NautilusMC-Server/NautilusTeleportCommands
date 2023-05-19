@@ -10,8 +10,6 @@ public class SethomeCommand extends CommandStem {
         super(plugin, "sethome", "Set homes", "createhome");
     }
 
-    protected TeleportCommands plugin;
-
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {

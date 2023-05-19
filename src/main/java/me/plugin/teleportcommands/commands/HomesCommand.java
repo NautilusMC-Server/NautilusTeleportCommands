@@ -28,8 +28,8 @@ public class HomesCommand extends CommandStem {
         p.sendMessage(ChatColor.DARK_AQUA + "-- Homes: --");
         for(String name : homes.keySet()) {
             p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&f" + name + "&b: &7(" + homes.get(name).getX() + ", " +
-                            homes.get(name).getZ() + "), " + homes.get(name).getWorld().getName()));
+                    "&f" + name + "&b: &7(" + Math.round(homes.get(name).getX()) + ", " +
+                            Math.round(homes.get(name).getZ()) + "), " + homes.get(name).getWorld().getName()));
         }
         return true;
     }

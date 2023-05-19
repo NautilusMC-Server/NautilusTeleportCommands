@@ -125,6 +125,7 @@ public class DataManager {
 
     //homes
     public void checkPlayer(Player p) {
+        if(p.hasPlayedBefore()) return;
         if(!getConfig().getKeys(false).contains(p.getUniqueId())) {
             config.createSection(p.getUniqueId() + ".homes");
             saveConfig();

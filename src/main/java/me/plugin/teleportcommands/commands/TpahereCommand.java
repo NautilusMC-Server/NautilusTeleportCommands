@@ -11,8 +11,6 @@ public class TpahereCommand extends CommandStem {
         super(plugin, "tpahere", "Send tpahere request", "");
     }
 
-    protected TeleportCommands plugin;
-
     @Override
     public boolean execute(CommandSender sender, String[] args) {
         if (!(sender instanceof Player)) {
@@ -22,6 +20,10 @@ public class TpahereCommand extends CommandStem {
         Player p = (Player) sender;
         for(Player to : Bukkit.getOnlinePlayers()) {
             if(to.getName().equalsIgnoreCase(args[0])) {
+                if(to.equals(p)) {
+                    p.sendMessage(ChatColor.GRAY + "You can't tp yourself to yourself :p");
+                    return true;
+                }
                 plugin.tpa().sendRequestTPA(p, to, true);
                 return true;
             }

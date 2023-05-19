@@ -8,17 +8,18 @@ import me.plugin.teleportcommands.utils.TPA;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
 
 public final class TeleportCommands extends JavaPlugin {
 
-    public static Plugin plugin;
-
-    protected String pluginName;
+    private String pluginName;
     private DataManager dataManager;
     private TPA tpa;
+    private EventManager eventManager;
+    private OnCustomTeleport onCustomTeleport;
     private ArrayList<CommandStem> commands;
 
     public TeleportCommands() {
@@ -30,10 +31,13 @@ public final class TeleportCommands extends JavaPlugin {
     @Override
     public void onEnable() {
         // Plugin startup logic
-        plugin = this;
+        //data
         dataManager = new DataManager(this);
-        getServer().getPluginManager().registerEvents(new EventManager(this), this);
-        getServer().getPluginManager().registerEvents(new OnCustomTeleport(this), this);
+        tpa = new TPA(this);
+        //events
+        eventManager = new EventManager(this);
+        onCustomTeleport = new OnCustomTeleport(this);
+        registerEvents();
     }
 
     @Override
@@ -46,7 +50,13 @@ public final class TeleportCommands extends JavaPlugin {
         return true;
     }
 
-    protected void registerCommands() {
+    private void registerEvents() {
+        PluginManager pm = getServer().getPluginManager();
+        pm.registerEvents(eventManager, this);
+        pm.registerEvents(onCustomTeleport, this);
+    }
+
+    private void registerCommands() {
         //homes
         commands.add(new DelhomeCommand(this));
         commands.add(new HomeCommand(this));

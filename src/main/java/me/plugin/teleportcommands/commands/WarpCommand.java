@@ -25,11 +25,11 @@ public class WarpCommand extends CommandStem {
         if (args.length < 1) {
             p.sendMessage(ChatColor.GRAY + "Please provide name of home: /warp [home]");
             p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                    "&3&l-- Warps: --"));
+                    "&d-- &3&lWarps: &r&d--"));
             HashMap<String, Location> map = plugin.d().warpsList();
             for(String s : map.keySet()) {
                 p.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        "&f" + s + "&d: &7(" +map.get(s).getX() + " " + map.get(s).getZ()
+                        "&f" + s + "&d: &7(" + Math.round(map.get(s).getX()) + " " + Math.round(map.get(s).getZ())
                         + "), " + map.get(s).getWorld().getName()));
             }
             return true;
