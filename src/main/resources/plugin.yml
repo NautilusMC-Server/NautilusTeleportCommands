@@ -5,9 +5,33 @@ api-version: 1.19
 commands:
   sethome:
     description: Sets homes
+    aliases:
+      - createhome
   delhome:
     description: Deletes homes
+    aliases:
+      - removehome
   homes:
     description: Lists homes
   home:
     description: Brings player to a home
+  tpa:
+    description: Request tp
+  tpahere:
+    description: Request tpa here
+  tpaccept:
+    description: Accept tp request
+    aliases:
+      - tpyes
+  tpacancel:
+    description: Cancel outgoing tp request
+  warp:
+    description: Warp to locatoin
+  warps:
+    description: Lists warps
+  setwarp:
+    description: Sets warps
+  delwarp:
+    description: Deletes warps
+  spawn:
+    description: Teleports to spawn

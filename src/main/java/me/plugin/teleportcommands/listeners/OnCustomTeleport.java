@@ -5,6 +5,7 @@ import me.plugin.teleportcommands.events.CustomTeleportEvent;
 import me.plugin.teleportcommands.utils.Counter;
 import me.plugin.teleportcommands.utils.PlayerBlock;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -29,7 +30,7 @@ public class OnCustomTeleport implements Listener {
         Player p = e.getPlayer();
         PlayerBlock pb = new PlayerBlock(p);
         if (running.contains(pb)) {
-            p.sendMessage("Teleportation already in progress");
+            p.sendMessage(ChatColor.DARK_AQUA + "Sending you elsewhere in 5 seconds...");
             e.setCancelled(true);
             return;
         }
@@ -43,7 +44,7 @@ public class OnCustomTeleport implements Listener {
                 counter.decrement();
                 p.sendMessage("" + running.contains(p));
                 if (canceled.contains(p)) {
-                    p.sendMessage("Teleportation Canceled!");
+                    p.sendMessage(ChatColor.RED + "Teleportation Canceled!");
                     e.setCancelled(true);
                     canceled.remove(p);
                     running.remove(pb);

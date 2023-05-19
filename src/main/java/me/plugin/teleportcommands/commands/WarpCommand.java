@@ -8,9 +8,11 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class HomeCommand extends CommandStem {
-    public HomeCommand(TeleportCommands plugin) {
-        super(plugin, "home", "Teleports to specified home", "");
+import java.util.HashMap;
+
+public class WarpCommand extends CommandStem {
+    public WarpCommand(TeleportCommands plugin) {
+        super(plugin, "warp", "Teleports to specified warp", "");
     }
 
     @Override
@@ -21,16 +23,23 @@ public class HomeCommand extends CommandStem {
         }
         Player p = (Player) sender;
         if (args.length < 1) {
-            p.sendMessage(ChatColor.GRAY + "Please provide name of home: /home [home]");
-            //todo print homes list
+            p.sendMessage(ChatColor.GRAY + "Please provide name of home: /warp [home]");
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&3&l-- Warps: --"));
+            HashMap<String, Location> map = plugin.d().warpsList();
+            for(String s : map.keySet()) {
+                p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                        "&f" + s + "&d: &7(" +map.get(s).getX() + " " + map.get(s).getZ()
+                        + "), " + map.get(s).getWorld().getName()));
+            }
             return true;
         }
         String name = args[0];
-        if (!plugin.d().hasHome(p,name)) {
-            p.sendMessage(ChatColor.GRAY + "Home " + name + " doesn't exist!");
+        if (!plugin.d().existsWarp(name)) {
+            p.sendMessage(ChatColor.GRAY + "Warp " + name + " doesn't exist!");
             return true;
         }
-        Location to = plugin.d().getHomeLocation(p, name);
+        Location to = plugin.d().getWarpLocation(name);
         CustomTeleportEvent tpEvent = new CustomTeleportEvent(p, to);
         Bukkit.getPluginManager().callEvent(tpEvent);
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
@@ -41,5 +50,4 @@ public class HomeCommand extends CommandStem {
         }, 5 * 20);
         return true;
     }
-
 }

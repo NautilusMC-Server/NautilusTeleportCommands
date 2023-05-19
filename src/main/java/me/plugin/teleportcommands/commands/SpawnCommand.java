@@ -8,9 +8,9 @@ import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-public class HomeCommand extends CommandStem {
-    public HomeCommand(TeleportCommands plugin) {
-        super(plugin, "home", "Teleports to specified home", "");
+public class SpawnCommand extends CommandStem {
+    public SpawnCommand(TeleportCommands plugin) {
+        super(plugin, "spawn", "Teleports to spawn", "");
     }
 
     @Override
@@ -20,26 +20,15 @@ public class HomeCommand extends CommandStem {
             return true;
         }
         Player p = (Player) sender;
-        if (args.length < 1) {
-            p.sendMessage(ChatColor.GRAY + "Please provide name of home: /home [home]");
-            //todo print homes list
-            return true;
-        }
-        String name = args[0];
-        if (!plugin.d().hasHome(p,name)) {
-            p.sendMessage(ChatColor.GRAY + "Home " + name + " doesn't exist!");
-            return true;
-        }
-        Location to = plugin.d().getHomeLocation(p, name);
+        Location to = plugin.getServer().getWorld("world").getSpawnLocation();
         CustomTeleportEvent tpEvent = new CustomTeleportEvent(p, to);
         Bukkit.getPluginManager().callEvent(tpEvent);
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
             if (!tpEvent.isCancelled()) {
-                p.sendMessage(ChatColor.AQUA + "Teleporting!");
+                p.sendMessage(ChatColor.AQUA + "Teleporting to spawn!");
                 p.teleport(to);
             }
         }, 5 * 20);
         return true;
     }
-
 }

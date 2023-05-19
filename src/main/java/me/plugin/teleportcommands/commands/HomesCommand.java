@@ -1,8 +1,12 @@
 package me.plugin.teleportcommands.commands;
 
 import me.plugin.teleportcommands.TeleportCommands;
+import org.bukkit.ChatColor;
+import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+
+import java.util.HashMap;
 
 public class HomesCommand extends CommandStem {
     public HomesCommand(TeleportCommands plugin) {
@@ -15,25 +19,19 @@ public class HomesCommand extends CommandStem {
             return true;
         }
         Player p = (Player) sender;
-        int count = 0;
-        for (int i = 0; i < HomeStorage.getHomes().size(); i++) {
-            Home home = HomeStorage.getHomes().get(i);
-            if (home.getPlayer().equals(p)) {
-                count++;
-            }
+        HashMap<String, Location> homes = plugin.d().homesList(p);
+        if (homes.size() == 0) {
+            p.sendMessage(ChatColor.GRAY + "You have don't have any homes!");
+            p.sendMessage(ChatColor.GRAY + "\"/home set <name>\" to create a home");
+            return true;
         }
-        if (count == 0) {
-            p.sendMessage("You have don't have any homes!");
-            p.sendMessage("\"/home set <name>\" to create a home");
-            return;
+        p.sendMessage(ChatColor.DARK_AQUA + "-- Homes: --");
+        for(String name : homes.keySet()) {
+            p.sendMessage(ChatColor.translateAlternateColorCodes('&',
+                    "&f" + name + "&b: &7(" + homes.get(name).getX() + ", " +
+                            homes.get(name).getZ() + "), " + homes.get(name).getWorld().getName()));
         }
-        p.sendMessage("Homes:");
-        for (int i = 0; i < HomeStorage.getHomes().size(); i++) {
-            Home home = HomeStorage.getHomes().get(i);
-            if (home.getPlayer().equals(p)) {
-                p.sendMessage("-" + home.getName());
-            }
-        }
+        return true;
     }
 
 }

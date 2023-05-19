@@ -20,6 +20,13 @@ public class TPA {
     public void sendRequestTPA(Player from, Player to, boolean tpahere) {
         from.sendMessage(ChatColor.translateAlternateColorCodes('&',
                 "&3Sent a teleport request to ") + to.displayName());
+        for(Player p : pending.keySet()) {
+            if(pending.get(p).equals(to)) {
+                pending.put(p, null);
+                p.sendMessage(ChatColor.RED + "Your tp request to " + to.displayName() +
+                        ChatColor.RED + " was overridden by another player's request.");
+            }
+        }
         to.sendMessage(from.displayName() +
                 ChatColor.translateAlternateColorCodes('&',
                         (tpahere ? " &3would like you to teleport to them!" : " &3Would like to teleport to you!")));

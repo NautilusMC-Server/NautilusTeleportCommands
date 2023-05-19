@@ -47,10 +47,22 @@ public final class TeleportCommands extends JavaPlugin {
     }
 
     protected void registerCommands() {
+        //homes
         commands.add(new DelhomeCommand(this));
         commands.add(new HomeCommand(this));
         commands.add(new HomesCommand(this));
         commands.add(new SethomeCommand(this));
+        //warps
+        commands.add(new DelwarpCommand(this));
+        commands.add(new WarpCommand(this));
+        commands.add(new WarpsCommand(this));
+        commands.add(new SetwarpCommand(this));
+        commands.add(new SpawnCommand(this));
+        //tpa
+        commands.add(new TpaCommand(this));
+        commands.add(new TpahereCommand(this));
+        commands.add(new TpacceptCommand(this));
+        commands.add(new TpacancelCommand(this));
     }
 
     public DataManager d() {
