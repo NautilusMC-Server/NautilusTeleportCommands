@@ -20,17 +20,16 @@ public final class TeleportCommands extends JavaPlugin {
     private TPA tpa;
     private EventManager eventManager;
     private OnCustomTeleport onCustomTeleport;
-    private ArrayList<CommandStem> commands;
 
     public TeleportCommands() {
         this.pluginName = "TeleportCommands";
-        commands = new ArrayList<>();
-        registerCommands();
     }
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        //commands
+        registerCommands();
         //data
         dataManager = new DataManager(this);
         tpa = new TPA(this);
@@ -38,16 +37,6 @@ public final class TeleportCommands extends JavaPlugin {
         eventManager = new EventManager(this);
         onCustomTeleport = new OnCustomTeleport(this);
         registerEvents();
-    }
-
-    @Override
-    public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
-        for(CommandStem c : commands){
-            if(c.getCommand().equalsIgnoreCase(label) || (c.getAliases() != null && c.getAliases().contains(label))){
-                c.execute(sender, args);
-            }
-        }
-        return true;
     }
 
     private void registerEvents() {
@@ -58,21 +47,21 @@ public final class TeleportCommands extends JavaPlugin {
 
     private void registerCommands() {
         //homes
-        commands.add(new DelhomeCommand(this));
-        commands.add(new HomeCommand(this));
-        commands.add(new HomesCommand(this));
-        commands.add(new SethomeCommand(this));
+        this.getCommand("delhome").setExecutor(new DelhomeCommand(this));
+        this.getCommand("home").setExecutor(new HomeCommand(this));
+        this.getCommand("homes").setExecutor(new HomesCommand(this));
+        this.getCommand("sethome").setExecutor(new SethomeCommand(this));
         //warps
-        commands.add(new DelwarpCommand(this));
-        commands.add(new WarpCommand(this));
-        commands.add(new WarpsCommand(this));
-        commands.add(new SetwarpCommand(this));
-        commands.add(new SpawnCommand(this));
+        this.getCommand("delwarp").setExecutor(new DelwarpCommand(this));
+        this.getCommand("warp").setExecutor(new WarpCommand(this));
+        this.getCommand("warps").setExecutor(new WarpsCommand(this));
+        this.getCommand("setwarp").setExecutor(new SetwarpCommand(this));
+        this.getCommand("spawn").setExecutor(new SpawnCommand(this));
         //tpa
-        commands.add(new TpaCommand(this));
-        commands.add(new TpahereCommand(this));
-        commands.add(new TpacceptCommand(this));
-        commands.add(new TpacancelCommand(this));
+        this.getCommand("tpa").setExecutor(new TpaCommand(this));
+        this.getCommand("tpahere").setExecutor(new TpahereCommand(this));
+        this.getCommand("tpaccept").setExecutor(new TpacceptCommand(this));
+        this.getCommand("tpacancel").setExecutor(new TpacancelCommand(this));
     }
 
     public DataManager d() {

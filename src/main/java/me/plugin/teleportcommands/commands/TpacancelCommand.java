@@ -3,8 +3,13 @@ package me.plugin.teleportcommands.commands;
 import me.plugin.teleportcommands.TeleportCommands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class TpacancelCommand extends CommandStem {
     public TpacancelCommand(TeleportCommands plugin) {
@@ -21,5 +26,15 @@ public class TpacancelCommand extends CommandStem {
         Player p = (Player) sender;
         plugin.tpa().cancelRequest(p);
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        return null;
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        return execute(commandSender, strings);
     }
 }

@@ -19,8 +19,9 @@ public class TPA {
 
     public void sendRequestTPA(Player from, Player to, boolean tpahere) {
         from.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                "&3Sent a teleport request to ") + to.getDisplayName());
+                "&bSent a teleport request to ") + to.getDisplayName());
         for(Player p : pending.keySet()) {
+            if(pending.get(p) == null) continue;
             if(pending.get(p).keySet().toArray()[0].equals(to)) {
                 pending.put(p, null);
                 p.sendMessage(ChatColor.RED + "Your tp request to " + to.getDisplayName() +
@@ -28,8 +29,8 @@ public class TPA {
             }
         }
         to.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                        "&3" + from.getDisplayName() +
-                                (tpahere ? " &3would like you to teleport to them!" : " &3Would like to teleport to you!")));
+                        "&b" + from.getDisplayName() +
+                                (tpahere ? " &bwould like you to teleport to them!" : " &bwould like to teleport to you!")));
         to.sendMessage(ChatColor.RED + "This request will expire in 60 seconds.");
         to.sendMessage(ChatColor.GRAY + "\"/tpaccept\" to accept, just ignore otherwise.");
         HashMap<Player, Boolean> tpProfile = new HashMap<>();
@@ -38,6 +39,7 @@ public class TPA {
         Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
             @Override
             public void run() {
+                if(pending.get(from) == null) return;
                 if(pending.get(from).containsKey(to))
                     pending.put(from, null);
             }
@@ -46,20 +48,23 @@ public class TPA {
 
     public void acceptTPA(Player accepting) {
         for(Player player : pending.keySet()) {
+            if(pending.get(player) == null) continue;
             if(pending.get(player).containsKey(accepting)) {
                 boolean tpahere = pending.get(player).get(accepting);
                 player.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                "&3" + accepting.getDisplayName() +
-                                " &3has accepted your teleport request!"));
+                                "&b" + accepting.getDisplayName() +
+                                " &bhas accepted your teleport request!"));
                 accepting.sendMessage(ChatColor.translateAlternateColorCodes('&',
-                                "&3Accepted request to teleport " + (tpahere ? "" : "to ")) +
-                        player.getDisplayName() + (tpahere ? " &3to you" : ""));
+                                "&bAccepted request to teleport " + (tpahere ? "to " : "") +
+                        player.getDisplayName() + (tpahere ? "" : " &bto you")));
                 //teleport them!
-                if(tpahere) execute(player, accepting);
-                else execute(accepting, player);
+                if(tpahere) execute(accepting, player);
+                else execute(player, accepting);
             }
             pending.put(player, null);
+            return;
         }
+        accepting.sendMessage(ChatColor.translateAlternateColorCodes('&', "&7No pending teleport requests."));
     }
 
     public void execute(Player from, Player to) {

@@ -5,8 +5,13 @@ import me.plugin.teleportcommands.events.CustomTeleportEvent;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SpawnCommand extends CommandStem {
     public SpawnCommand(TeleportCommands plugin) {
@@ -30,5 +35,15 @@ public class SpawnCommand extends CommandStem {
             }
         }, 5 * 20);
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        return null;
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        return execute(commandSender, strings);
     }
 }

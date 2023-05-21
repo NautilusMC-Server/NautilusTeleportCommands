@@ -2,8 +2,13 @@ package me.plugin.teleportcommands.commands;
 
 import me.plugin.teleportcommands.TeleportCommands;
 import org.bukkit.ChatColor;
+import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class DelwarpCommand extends CommandStem {
     public DelwarpCommand(TeleportCommands plugin) {
@@ -27,5 +32,15 @@ public class DelwarpCommand extends CommandStem {
         }
         plugin.d().deleteWarp(p, args[0]);
         return true;
+    }
+
+    @Override
+    public @Nullable List<String> onTabComplete(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        return null;
+    }
+
+    @Override
+    public boolean onCommand(@NotNull CommandSender commandSender, @NotNull Command command, @NotNull String s, @NotNull String[] strings) {
+        return execute(commandSender, strings);
     }
 }
